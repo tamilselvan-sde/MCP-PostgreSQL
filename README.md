@@ -89,18 +89,18 @@ sequenceDiagram
 - Python 3.8+
 - PostgreSQL 15+ (running in Podman/Docker)
 - Local Ollama endpoint with `gpt-oss:120b-cloud` model
-- Conda environment `asm`
+- Conda environment `venv`
 
 ## Installation
 
 1. **Clone or navigate to the project directory**:
    ```bash
-   cd /Users/tamilselavans/Downloads/mcp-postgres
+   cd /Users/Downloads/mcp-postgres
    ```
 
 2. **Activate conda environment**:
    ```bash
-   conda activate asm
+   conda activate venv
    ```
 
 3. **Install dependencies**:
@@ -190,8 +190,8 @@ Features:
 ### 2. Test Database Connection
 
 ```bash
-conda activate asm
-cd /Users/tamilselavans/Downloads/mcp-postgres
+conda activate venv
+cd /Users/Downloads/mcp-postgres
 python test_db_connection.py
 ```
 
@@ -348,7 +348,7 @@ curl http://localhost:11434/api/show -d '{"name": "gpt-oss:120b-cloud"}'
 ### Import Errors
 ```bash
 # Ensure conda environment is active
-conda activate asm
+conda activate venv
 
 # Reinstall dependencies
 pip install -r requirements.txt --upgrade
