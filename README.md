@@ -39,7 +39,7 @@ graph TB
 - Python 3.8+
 - PostgreSQL 15+ (running in Podman/Docker)
 - Local Ollama endpoint with `gpt-oss:120b-cloud` model
-- Conda environment `asm`
+- Conda environment `venv`
 
 ## Installation
 
@@ -50,7 +50,7 @@ graph TB
 
 2. **Activate conda environment**:
    ```bash
-   conda activate asm
+   conda activate venv
    ```
 
 3. **Install dependencies**:
@@ -114,7 +114,7 @@ curl http://localhost:11434/api/tags
 ### 1. Test Database Connection
 
 ```bash
-conda activate asm
+conda activate venv
 cd /Users/Downloads/mcp-postgres
 python test_db_connection.py
 ```
@@ -253,7 +253,7 @@ curl http://localhost:11434/api/show -d '{"name": "gpt-oss:120b-cloud"}'
 ### Import Errors
 ```bash
 # Ensure conda environment is active
-conda activate asm
+conda activate venv
 
 # Reinstall dependencies
 pip install -r requirements.txt --upgrade
