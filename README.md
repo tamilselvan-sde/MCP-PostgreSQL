@@ -266,3 +266,9 @@ This project is provided as-is for demonstration purposes.
 ## Contributing
 
 Contributions welcome! Please ensure all code follows the strict formatting standards outlined in the development notes.
+
+
+## 📫 Connect With Me
+
+- **LinkedIn:** https://www.linkedin.com/in/tamilselvan-ai/   
+- **Email:** tamilselvan.sde@gmail.com
