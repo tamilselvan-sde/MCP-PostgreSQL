@@ -45,7 +45,7 @@ graph TB
 
 1. **Clone or navigate to the project directory**:
    ```bash
-   cd /Users/tamilselavans/Downloads/mcp-postgres
+   cd /Users/Downloads/mcp-postgres
    ```
 
 2. **Activate conda environment**:
@@ -115,7 +115,7 @@ curl http://localhost:11434/api/tags
 
 ```bash
 conda activate asm
-cd /Users/tamilselavans/Downloads/mcp-postgres
+cd /Users/Downloads/mcp-postgres
 python test_db_connection.py
 ```
 
