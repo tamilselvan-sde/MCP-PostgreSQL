@@ -177,6 +177,17 @@ def build_graph():
     return graph
 
 print("="*40)
+# Global variable to store compiled graph
+_compiled_graph = None
+
+def get_graph():
+    """Get or create singleton compiled graph."""
+    global _compiled_graph
+    if _compiled_graph is None:
+        _compiled_graph = build_graph()
+    return _compiled_graph
+
+print("="*40)
 # run_agent
 print("="*40)
 
@@ -185,7 +196,8 @@ def run_agent(user_input: str, thread_id: str = "default") -> str:
     # Executes the agent with a user message in a specific thread
     print("#===============[ run_agent ]==========")
     
-    graph = build_graph()
+    # Use cached graph to persist memory
+    graph = get_graph()
     
     config_dict = {"configurable": {"thread_id": thread_id}}
     

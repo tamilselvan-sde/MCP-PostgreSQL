@@ -34,7 +34,7 @@ print("="*40)
 # Ollama endpoint and models
 OLLAMA_ENDPOINT: Final[str] = os.getenv("OLLAMA_ENDPOINT", "http://localhost:11434/")
 OLLAMA_LLM_MODEL: Final[str] = os.getenv("OLLAMA_LLM_MODEL", "gpt-oss:120b-cloud")
-OLLAMA_EMBED_MODEL: Final[str] = os.getenv("OLLAMA_EMBED_MODEL", "embeddinggemma:300m")
+
 
 # LLM parameters
 LLM_TEMPERATURE: Final[float] = float(os.getenv("LLM_TEMPERATURE", "0"))

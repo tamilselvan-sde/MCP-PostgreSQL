@@ -6,6 +6,7 @@ A Model Context Protocol (MCP) server that integrates PostgreSQL database operat
 
 - 🗄️ **PostgreSQL Integration**: Full CRUD operations via MCP tools
 - 🤖 **LangGraph Agent**: Intelligent workflow orchestration with conversation memory
+- 🖥️ **Streamlit UI**: User-friendly chat interface and database explorer
 - 🧠 **Ollama LLM**: Local endpoint support for `gpt-oss:120b-cloud` model
 - 🔧 **MCP Protocol**: Standards-compliant Model Context Protocol implementation
 - 💾 **Persistent Memory**: Conversation state management using MemorySaver
@@ -34,23 +35,72 @@ graph TB
     style DB fill:#9b59b6
 ```
 
+## Workflows
+
+### 1. Direct Database Tool Execution
+
+When a client requests a specific tool execution (e.g., via MCP protocol):
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant MCPServer as MCP Server
+    participant DBTools as DB Tools
+    participant Postgres as PostgreSQL
+    
+    Client->>MCPServer: Call Tool (e.g., db_list_tables)
+    MCPServer->>DBTools: Execute Function
+    DBTools->>Postgres: SQL Query
+    Postgres-->>DBTools: Result Rows
+    DBTools-->>MCPServer: Formatted Result
+    MCPServer-->>Client: Tool Response
+```
+
+### 2. Agent-Based Reasoning (LangGraph)
+
+When a client asks a natural language question (e.g., "How many users are active?"):
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Agent as LangGraph Agent
+    participant LLM as Ollama LLM
+    participant DB as DB Tools
+    
+    Client->>Agent: "How many users?"
+    
+    loop Reasoning Loop
+        Agent->>LLM: Prompt + Conversation History
+        LLM-->>Agent: Function Call (db_query)
+        
+        alt Tool Call Requested
+            Agent->>DB: Execute db_query("SELECT count(*) FROM users")
+            DB-->>Agent: Result: "42"
+        end
+    end
+    
+    Agent->>LLM: Final Answer Generation
+    LLM-->>Agent: "There are 42 users."
+    Agent-->>Client: Final Response
+```
+
 ## Prerequisites
 
 - Python 3.8+
 - PostgreSQL 15+ (running in Podman/Docker)
 - Local Ollama endpoint with `gpt-oss:120b-cloud` model
-- Conda environment `venv`
+- Conda environment `asm`
 
 ## Installation
 
 1. **Clone or navigate to the project directory**:
    ```bash
-   cd /Users/Downloads/mcp-postgres
+   cd /Users/tamilselavans/Downloads/mcp-postgres
    ```
 
 2. **Activate conda environment**:
    ```bash
-   conda activate venv
+   conda activate asm
    ```
 
 3. **Install dependencies**:
@@ -71,7 +121,6 @@ graph TB
    # Ollama Configuration
    OLLAMA_ENDPOINT=http://localhost:11434/
    OLLAMA_LLM_MODEL=gpt-oss:120b-cloud
-   OLLAMA_EMBED_MODEL=embeddinggemma:300m
    
    # LLM Parameters
    LLM_TEMPERATURE=0
@@ -111,11 +160,38 @@ curl http://localhost:11434/api/tags
 
 ## Usage
 
-### 1. Test Database Connection
+### 1. Streamlit UI (New!)
+
+Start the web interface:
 
 ```bash
-conda activate venv
-cd /Users/Downloads/mcp-postgres
+streamlit run streamlit_app.py
+```
+
+Features:
+- **Chat Interface**: Natural language interaction with your database
+- **Data Explorer**: visual table viewer and structure inspection
+- **Sidebar status**: Real-time connection checks
+
+### 2. Interactive CLI Chat
+
+Chat directly with the agent from the command line:
+
+```bash
+python langgraph_agent.py
+```
+
+Features:
+- **Natural Language Chat**: Talk to your database
+- **Thread Management**: `/thread <id>` to switch conversations
+- **Tables View**: `/tables` to see database structure
+- **History**: Conversation context is preserved
+
+### 2. Test Database Connection
+
+```bash
+conda activate asm
+cd /Users/tamilselavans/Downloads/mcp-postgres
 python test_db_connection.py
 ```
 
@@ -124,7 +200,7 @@ Expected output:
 - ✓ Database connection successful
 - ✓ Table creation, insertion, update, delete, query operations
 
-### 2. Test LangGraph Agent
+### 3. Test LangGraph Agent
 
 ```bash
 python test_langgraph.py
@@ -136,7 +212,7 @@ Expected output:
 - ✓ Tool binding and execution
 - ✓ Conversation memory persistence
 
-### 3. Run Examples
+### 4. Run Examples
 
 ```bash
 python example_usage.py
@@ -148,7 +224,7 @@ Demonstrates:
 - Conversation memory
 - Multi-step workflows
 
-### 4. Run MCP Server
+### 5. Run MCP Server
 
 ```bash
 python mcp_postgres_server.py
@@ -168,6 +244,24 @@ The server runs with stdio transport and awaits MCP protocol commands.
 | `db_delete` | Delete record by ID | `table`: Table name<br>`record_id`: Integer |
 | `agent_query` | Ask LangGraph agent | `question`: User question<br>`thread_id`: Optional thread ID |
 
+## Visual Examples
+
+### Streamlit Chat Interface
+![Chat Interface](examples/chat_interface.png)
+*Natural language interaction with the database using the Streamlit UI.*
+
+### Database Viewer
+![Database Viewer](examples/database_viewer.png)
+*Exploring table structure and data content visually.*
+
+### CLI Interaction
+![CLI Chat](examples/cli_interaction.png)
+*Interactive command-line chat session.*
+
+### Agent Reasoning
+![Agent Reasoning](examples/agent_reasoning.png)
+*Agent explaining its thought process and results.*
+
 ## Code Structure
 
 ```
@@ -175,6 +269,7 @@ mcp-postgres/
 ├── config.py                  # Configuration management
 ├── db_tools.py                # PostgreSQL operations
 ├── langgraph_agent.py         # LangGraph workflow with Ollama
+├── streamlit_app.py           # Streamlit web interface
 ├── mcp_postgres_server.py     # MCP server implementation
 ├── test_db_connection.py      # Database connection tests
 ├── test_langgraph.py          # LangGraph agent tests
@@ -253,7 +348,7 @@ curl http://localhost:11434/api/show -d '{"name": "gpt-oss:120b-cloud"}'
 ### Import Errors
 ```bash
 # Ensure conda environment is active
-conda activate venv
+conda activate asm
 
 # Reinstall dependencies
 pip install -r requirements.txt --upgrade
@@ -266,9 +361,3 @@ This project is provided as-is for demonstration purposes.
 ## Contributing
 
 Contributions welcome! Please ensure all code follows the strict formatting standards outlined in the development notes.
-
-
-## 📫 Connect With Me
-
-- **LinkedIn:** https://www.linkedin.com/in/tamilselvan-ai/   
-- **Email:** tamilselvan.sde@gmail.com
