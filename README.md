@@ -261,7 +261,8 @@ The server runs with stdio transport and awaits MCP protocol commands.
 ### Agent Reasoning
 ![Agent Reasoning](examples/agent_reasoning.png)
 *Agent explaining its thought process and results.*
-
+## Example video
+![chatbot video](MCP_PostgreSQL_Agent.mp4)
 ## Code Structure
 
 ```
