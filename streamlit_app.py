@@ -15,7 +15,7 @@ print("----------------- pandas import completed or connected, ---------")
 
 # Configure page
 st.set_page_config(
-    page_title="MCP PostgreSQL Agent",
+    page_title="MCP PostgreSQL Agent for DB Chat",
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
